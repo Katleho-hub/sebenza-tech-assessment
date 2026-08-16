@@ -1,5 +1,5 @@
-import { deleteSession } from "@/lib/server/session";
 import { NextResponse } from "next/server";
+import { deleteSession } from "@/lib/server/session";
 
 export async function POST() {
   await deleteSession();

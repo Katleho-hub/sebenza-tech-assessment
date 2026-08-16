@@ -1,8 +1,8 @@
 // https://nextjs.org/docs/app/guides/authentication
 import "server-only";
+import type { User } from "@prisma/client";
+import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { SignJWT, jwtVerify } from "jose";
-import { User } from "@prisma/client";
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
@@ -33,7 +33,7 @@ export async function decrypt(session: string | undefined = "") {
     console.log("Session payload:", payload);
     return payload;
   } catch (error) {
-    console.log("Failed to verify session");
+    console.error("Failed to verify session", error);
     return null;
   }
 }

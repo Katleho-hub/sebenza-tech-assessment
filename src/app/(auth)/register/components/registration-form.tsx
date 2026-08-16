@@ -1,9 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { type SubmitEvent, useEffect, useRef, useState } from "react";
 import { RegisterSchema } from "@/lib/schema/auth";
 import { formatZodError } from "@/utils/format-zod-error";
-import { type SubmitEvent, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 export function RegistrationForm() {
   const router = useRouter();
@@ -73,7 +73,7 @@ export function RegistrationForm() {
 
       if (!response.ok) {
         setSubmitError(
-          data?.error || "Something went wrong, please try again.",
+          data?.message || "Something went wrong, please try again.",
         );
         return;
       }

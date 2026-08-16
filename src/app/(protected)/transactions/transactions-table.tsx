@@ -1,5 +1,5 @@
 "use client";
-import { Transaction } from "@prisma/client";
+import type { Transaction } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 export function TransactionsTable() {

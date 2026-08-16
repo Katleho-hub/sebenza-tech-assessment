@@ -12,7 +12,8 @@
     "prisma:gen": "prisma generate",
     "prisma:studio": "prisma studio --config ./prisma.config.ts",
     "prisma:validate": "prisma validate",
-    "prisma:db:push": "prisma db push"
+    "prisma:db:push": "prisma db push",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.9.1",

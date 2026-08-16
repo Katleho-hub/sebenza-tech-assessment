@@ -1,9 +1,9 @@
+import bcrypt from "bcryptjs";
+import { type NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { RegisterSchema } from "@/lib/schema/auth";
 import { createSession } from "@/lib/server/session";
 import { formatZodError } from "@/utils/format-zod-error";
-import bcrypt from "bcryptjs";
-import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {

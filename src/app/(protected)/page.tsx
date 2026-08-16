@@ -1,10 +1,10 @@
-import { decrypt } from "@/lib/server/session";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { Bundles } from "./components/bundles";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { BalanceDisplay } from "@/app/(protected)/components/balance-display";
 import prisma from "@/lib/prisma";
+import { decrypt } from "@/lib/server/session";
+import { Bundles } from "./components/bundles";
 
 export default async function Page() {
   const cookie = (await cookies()).get("session")?.value;

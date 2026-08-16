@@ -1,8 +1,8 @@
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { LogoutButton } from "@/app/(auth)/components/logout-button";
 import prisma from "@/lib/prisma";
 import { decrypt } from "@/lib/server/session";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function Navbar() {
   const cookie = (await cookies()).get("session")?.value;

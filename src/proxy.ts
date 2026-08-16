@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { decrypt } from "@/lib/server/session";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { authRoutes, protectedRoutes } from "@/app/constants/routes";
+import { decrypt } from "@/lib/server/session";
 
 export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;

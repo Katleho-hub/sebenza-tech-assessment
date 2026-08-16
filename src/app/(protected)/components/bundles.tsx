@@ -9,10 +9,13 @@ type Bundle = {
 };
 
 export function Bundles({ userBalance }: { userBalance: number }) {
-  const [bundles, setBundles] = useState<Bundle[]>([]);
   const router = useRouter();
+  const [bundles, setBundles] = useState<Bundle[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitResponse, setSubmitResponse] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAddFundsChecked, setIsAddFundsChecked] = useState(false);
 
@@ -27,11 +30,10 @@ export function Bundles({ userBalance }: { userBalance: number }) {
   }, []);
 
   async function handleBuy(bundle: Bundle) {
-    setSubmitError(null);
+    setSubmitResponse(null);
     setIsLoading(true);
 
     if (userBalance < bundle.cost && !isAddFundsChecked) {
-      setSubmitError("Insufficient balance to redeem this bundle.");
       setIsLoading(false);
       return;
     }
@@ -40,7 +42,7 @@ export function Bundles({ userBalance }: { userBalance: number }) {
       const controller = new AbortController();
       abortControllerRef.current = controller;
 
-      const response1 = await fetch("/api/redeem", {
+      const redeemResponse = await fetch("/api/redeem", {
         signal: controller.signal,
         method: "POST",
         headers: {
@@ -51,17 +53,18 @@ export function Bundles({ userBalance }: { userBalance: number }) {
         }),
       });
 
-      const data2 = await response1.json();
-      console.log("data2", data2);
+      const redeemData = await redeemResponse.json();
 
-      if (!response1.ok) {
-        setSubmitError(
-          data2?.error || "Something went wrong, please try again.",
-        );
+      if (!redeemResponse.ok) {
+        setSubmitResponse({
+          success: redeemData?.success || false,
+          message:
+            redeemData?.message || "Something went wrong, please try again.",
+        });
         return;
       }
 
-      const response = await fetch("/api/profile/balance", {
+      const balanceResponse = await fetch("/api/profile/balance", {
         signal: controller.signal,
         method: "PATCH",
         headers: {
@@ -73,24 +76,33 @@ export function Bundles({ userBalance }: { userBalance: number }) {
         }),
       });
 
-      const data = await response.json();
+      const balanceData = await balanceResponse.json();
 
-      if (!response.ok) {
-        setSubmitError(
-          data?.message || "Something went wrong, please try again.",
-        );
+      if (!balanceResponse.ok) {
+        setSubmitResponse({
+          success: balanceData?.success || false,
+          message:
+            balanceData?.message || "Something went wrong, please try again.",
+        });
         return;
       }
+
+      setSubmitResponse({
+        success: true,
+        message: "Bundle redeemed successfully.",
+      });
 
       router.refresh();
       router.replace("/");
     } catch (error: unknown) {
       // Maybe handle abort
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred.",
-      );
+      setSubmitResponse({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -120,6 +132,7 @@ export function Bundles({ userBalance }: { userBalance: number }) {
               <div className="stat-value">{bundle.cost} SB</div>
               <div className="stat-actions">
                 <button
+                  type="button"
                   className={`btn btn-md  ${!isAddFundsChecked ? "btn-secondary" : "btn-accent"}`}
                   disabled={(!canBuy && !isAddFundsChecked) || isLoading}
                   onClick={() => handleBuy(bundle)}
@@ -131,7 +144,13 @@ export function Bundles({ userBalance }: { userBalance: number }) {
           );
         })}
       </div>
-      {submitError && <p className="text-error">{submitError}</p>}
+      {submitResponse && (
+        <p
+          className={`${submitResponse?.success ? "text-success" : "text-error"}`}
+        >
+          {submitResponse.message}
+        </p>
+      )}
     </div>
   );
 }

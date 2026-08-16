@@ -6,3 +6,5 @@ export const PurchaseSchema = z.object({
   name: z.string(),
   type: z.enum(["CREDIT", "DEBIT"]),
 });
+
+// type Bundle = Omit<z.infer<typeof PurchaseSchema>, "id">;

@@ -1,10 +1,9 @@
 "use client";
 
-import { LoginSchema } from "@/lib/schema/auth";
-import { type SubmitEvent, useEffect, useRef, useState } from "react";
-
-import { formatZodError } from "@/utils/format-zod-error";
 import { useRouter } from "next/navigation";
+import { type SubmitEvent, useEffect, useRef, useState } from "react";
+import { LoginSchema } from "@/lib/schema/auth";
+import { formatZodError } from "@/utils/format-zod-error";
 
 export function LoginForm() {
   const router = useRouter();

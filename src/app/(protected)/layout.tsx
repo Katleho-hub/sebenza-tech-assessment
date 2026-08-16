@@ -1,7 +1,7 @@
-import { Navbar } from "@/app/(protected)/components/navigation-bar";
-import { decrypt } from "@/lib/server/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Navbar } from "@/app/(protected)/components/navigation-bar";
+import { decrypt } from "@/lib/server/session";
 
 export default async function AuthenticatedLayout({
   children,

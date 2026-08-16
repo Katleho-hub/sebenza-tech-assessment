@@ -1,7 +1,7 @@
-import prisma from "@/lib/prisma";
-import { decrypt } from "@/lib/server/session";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { decrypt } from "@/lib/server/session";
 
 export async function GET() {
   try {
