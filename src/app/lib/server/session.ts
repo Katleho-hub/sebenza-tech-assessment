@@ -1,0 +1,53 @@
+// https://nextjs.org/docs/app/guides/authentication
+import "server-only";
+import { cookies } from "next/headers";
+import { SignJWT, jwtVerify } from "jose";
+import { User } from "@prisma/client";
+
+const secret = new TextEncoder().encode(process.env.SESSION_SECRET);
+const alg = "HS256";
+const sevenDaysInMilliSeconds = 7 * 24 * 60 * 60 * 1000;
+
+type Payload = {
+  userId: User["id"];
+};
+
+export async function encrypt(payload: Payload) {
+  return new SignJWT(payload)
+    .setProtectedHeader({ alg })
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .sign(secret);
+}
+
+export async function decrypt(session: string | undefined = "") {
+  try {
+    const { payload } = await jwtVerify(session, secret, {
+      algorithms: [alg],
+    });
+    console.log("Session payload:", payload);
+    return payload;
+  } catch (error) {
+    console.log("Failed to verify session");
+    return null;
+  }
+}
+
+export async function createSession(userId: User["id"]) {
+  const expiresAt = new Date(Date.now() + sevenDaysInMilliSeconds);
+  const session = await encrypt({ userId });
+  const cookieStore = await cookies();
+
+  cookieStore.set("session", session, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expires: expiresAt,
+    sameSite: "lax",
+    path: "/",
+  });
+}
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+}
