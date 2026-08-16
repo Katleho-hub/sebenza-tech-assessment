@@ -20,10 +20,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
+      data-theme="emerald"
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex bg-base-200 flex-col items-center">
+        <div className="w-full max-w-3xl flex flex-col gap-4">{children}</div>
+      </body>
     </html>
   );
 }
