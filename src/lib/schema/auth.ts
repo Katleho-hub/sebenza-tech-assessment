@@ -23,3 +23,11 @@ export const RegisterSchema = z.object({
     .regex(/[0-9]/, { error: "Password must contain at least one number." })
     .trim(),
 });
+
+export const LoginSchema = z.object({
+  email: z.email({ error: "Please enter a valid email." }).trim(),
+  password: z
+    .string()
+    .min(6, { error: "Password must be at least 6 characters long." })
+    .trim(),
+});
