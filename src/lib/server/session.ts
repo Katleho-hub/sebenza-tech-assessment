@@ -4,7 +4,12 @@ import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
 import { User } from "@prisma/client";
 
-const secret = new TextEncoder().encode(process.env.SESSION_SECRET);
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  throw new Error("SESSION_SECRET is not configured");
+}
+
+const secret = new TextEncoder().encode(sessionSecret);
 const alg = "HS256";
 const sevenDaysInMilliSeconds = 7 * 24 * 60 * 60 * 1000;
 

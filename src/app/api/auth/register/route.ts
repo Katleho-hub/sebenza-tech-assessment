@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password, username } = result.data;
-    const hashedPassword = await bcrypt.hash(password, 10);
 
+    // What happens if two users try to register with the same email at the same time?
     const existingUser = await prisma.user.findUnique({
       where: {
         email: email,
@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
         email,
@@ -49,6 +50,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
+    console.error("Error during registration:", error);
     return NextResponse.json(
       {
         success: false,
