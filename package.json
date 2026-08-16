@@ -2,14 +2,21 @@
   "name": "katleho-motloung-tech-assessment",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "prisma:gen": "prisma generate",
+    "prisma:studio": "prisma studio --config ./prisma.config.ts",
+    "prisma:validate": "prisma validate",
+    "prisma:db:push": "prisma db push"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.9.1",
+    "@prisma/client": "^7.9.1",
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"
@@ -17,9 +24,11 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.8",
     "@tailwindcss/postcss": "^4.3.3",
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "prisma": "^7.9.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
   }
