@@ -1,3 +1,5 @@
+import { OrDivider } from "@/app/(auth)/components/or-divider";
+
 export default function AuthLayout({
   children,
 }: {
@@ -6,6 +8,7 @@ export default function AuthLayout({
   return (
     <main className="flex flex-1 flex-col w-full gap-4 items-center justify-center py-32">
       {children}
+      <OrDivider />
     </main>
   );
 }
