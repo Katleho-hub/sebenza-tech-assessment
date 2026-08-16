@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
   const isAuthRoute = (authRoutes as readonly string[]).includes(path);
 
   if (isProtectedRoute && !session?.userId) {
-    return NextResponse.redirect(new URL("/register", request.nextUrl));
+    return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 
   if (isAuthRoute && session?.userId && path !== "/") {
