@@ -11,3 +11,27 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String
+  email     String   @unique
+  password  String
+  balance   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+}
+
+model Transaction {
+  id          Int             @id @default(autoincrement())
+  userId      Int             
+  amount      Int
+  type        TransactionType
+  description String
+  createdAt   DateTime        @default(now())
+}
