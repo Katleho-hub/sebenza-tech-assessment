@@ -1,18 +1,10 @@
-"use client";
 import type { Transaction } from "@prisma/client";
-import { useEffect, useState } from "react";
 
-export function TransactionsTable() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-  useEffect(() => {
-    fetch("/api/transactions")
-      .then((res) => res.json())
-      .then(({ data }) => {
-        setTransactions(data);
-      });
-  }, []);
-
+export function TransactionsTable({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) {
   return (
     <div className="min-h-0 flex-1 overflow-auto">
       <table className="table table-zebra table-pin-rows">
