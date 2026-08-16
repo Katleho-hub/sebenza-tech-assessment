@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sebenza Tech Assessment
 
-## Getting Started
+A Next.js application for user registration, login, balance management, WiFi bundle redemption, and transaction history.
 
-First, run the development server:
+## Installation
+
+Install the project dependencies:
+
+```bash
+npm install
+```
+
+## Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+DATABASE_URL="file:./dev.db"
+SESSION_SECRET="replace-with-a-long-random-secret"
+```
+
+`DATABASE_URL` is used by Prisma and the SQLite adapter to connect to the local database.
+
+`SESSION_SECRET` is used to sign and verify JWT session cookies. Use a long random value and do not commit it to source control.
+
+## Database Setup
+
+This project uses SQLite with Prisma ORM.
+
+Generate the Prisma client:
+
+```bash
+npm run prisma:gen
+```
+
+Create or sync the local database from the Prisma schema:
+
+```bash
+npm run prisma:db:push
+```
+
+Optional: open Prisma Studio to inspect the local database:
+
+```bash
+npm run prisma:studio
+```
+
+## How to Run the Application
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create an account from the register page, to view the dashboard, balance, bundles, and transaction history.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Production Build
 
-## Learn More
+Build and start the production server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Useful Commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run lint checks:
 
-## Deploy on Vercel
+```bash
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Run TypeScript checks:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run typecheck
+```
