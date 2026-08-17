@@ -44,6 +44,7 @@ I would improve the application by:
 - **Session management**:
   - decreasing duplication, maybe add a function to get the current user session.
   - rethink where/when I validate a session, I think there are currently to many checks.
+  - verify email on registration. 
 
 - **API routes**:
   - improve API response object consistency by returning a shared shape such as `{ success, message, data }` across endpoints.
@@ -52,3 +53,4 @@ I would improve the application by:
 - **Frontend**:
   - cleanup validation
   - improve the handling of different states loading, error etc.
+  - add e2e tests
