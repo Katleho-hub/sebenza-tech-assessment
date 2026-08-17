@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { authRoutes, protectedRoutes } from "@/app/constants/routes";
+import { authRoutes, protectedRoutes } from "@/constants/routes";
 import { decrypt } from "@/lib/server/session";
 
 export async function proxy(request: NextRequest) {
